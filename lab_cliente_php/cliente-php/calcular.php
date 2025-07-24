@@ -1,0 +1,21 @@
+<?php
+$num1 = $_GET['num1'] ?? 0;
+$num2 = $_GET['num2'] ?? 0;
+$operacao = $_GET['operacao'] ?? 'somar';
+
+$url = "http://localhost:8080/$operacao/$num1/$num2";
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$resposta = curl_exec($ch);
+
+if (curl_errno($ch)) {
+    die("Erro na requisição: " . curl_error($ch));
+}
+
+curl_close($ch);
+
+header("Location: resultado.php?resposta=" . urlencode($resposta));
+?>
